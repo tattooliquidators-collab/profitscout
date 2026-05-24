@@ -7729,7 +7729,8 @@ async function runLiveAnalysis() {
   if (!raw && !nameRaw) { showMsg('Paste an Amazon URL, ASIN, or product name first'); return; }
 
   var asin = '';
-  var m = raw.match(/\/dp\/([A-Z0-9]{10})/) || raw.match(/^([A-Z0-9]{10})$/);
+  var m = raw.match(/(?:dp|gp\/product)\/([A-Z0-9]{10})/) || raw.match(/^([A-Z0-9]{10})$/);
+if (!asin && raw) asin = (raw.match(/[A-Z0-9]{10}/) || [])[0] || '';
   if (m) asin = m[1];
 
   var amzUrl = asin ? 'https://www.amazon.com/dp/' + asin
