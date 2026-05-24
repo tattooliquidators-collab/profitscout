@@ -359,6 +359,19 @@ html,body { overflow-x:hidden; }
         <input id="la-videos" class="search-box" style="width:100%;font-size:13px" type="number" placeholder="e.g. 3"/>
       </div>
     </div>
+    <div id="ss-zone" style="border:2px dashed rgba(0,229,160,.4);border-radius:10px;padding:18px;margin-bottom:14px;text-align:center;cursor:pointer" onclick="document.getElementById('ss-input').click()" ondragover="event.preventDefault()" ondrop="handleSSDrop(event)">
+      <input id="ss-input" type="file" accept="image/*" style="display:none" onchange="handleSSFile(this.files[0])">
+      <div id="ss-preview" style="display:none;position:relative;display:inline-block">
+        <img id="ss-img" style="max-width:100%;max-height:180px;border-radius:6px" src=""/>
+        <button onclick="event.stopPropagation();clearSS()" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,.7);border:none;color:#fff;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:12px;line-height:1">x</button>
+      </div>
+      <div id="ss-hint">
+        <div style="font-size:26px;margin-bottom:6px">📸</div>
+        <div style="font-size:14px;font-weight:700;color:var(--accent)">Paste or drop Amazon screenshot here</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:4px">Win+Shift+S to snip → Ctrl+V here — Claude reads all data automatically</div>
+      </div>
+    </div>
+
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
       <button class="btn btn-primary" style="font-size:14px;padding:11px 28px;font-weight:800;letter-spacing:.3px" onclick="runLiveAnalysis()">⚡ Analyze Product</button>
       <button class="btn btn-secondary" style="font-size:13px;padding:11px 16px" onclick="clearLiveAnalysis()">↺ Clear</button>
@@ -1686,7 +1699,7 @@ Duration: Xs
 Clean teleprompter text only. 150-200 words. Strong hook, key benefits, honest pros/cons, affiliate CTA with "link in description".`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('/.netlify/functions/claude', {
       method:'POST',
       headers:{'content-type':'application/json','x-requested-with':'XMLHttpRequest'},
       body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:2000,messages:[{role:'user',content:prompt}]})
@@ -2592,7 +2605,7 @@ One-line pitch for this book:
 Series potential: (yes/no — if yes, suggest series name and 3 book titles)`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('/.netlify/functions/claude', {
       method: 'POST',
       headers: {'content-type':'application/json','x-requested-with':'XMLHttpRequest'},
       body: JSON.stringify({
@@ -2842,7 +2855,7 @@ Write these three synopsis versions in full:
 (Under 20 words. The elevator pitch. Format: "[Title] is [genre] for [reader] who [situation] — unlike [comparable], it [key differentiator].")`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages',{
+    const res = await fetch('/.netlify/functions/claude',{
       method:'POST',
       headers:{'content-type':'application/json','x-requested-with':'XMLHttpRequest'},
       body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1400,messages:[{role:'user',content:prompt}]})
@@ -2965,7 +2978,7 @@ Provide:
 5. PROBABILITY OF SUCCESS — X% with 2-sentence reasoning`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages',{
+    const res = await fetch('/.netlify/functions/claude',{
       method:'POST',
       headers:{'content-type':'application/json','x-requested-with':'XMLHttpRequest'},
       body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:2200,messages:[{role:'user',content:prompt}]})
@@ -3097,7 +3110,7 @@ Working Title:
 [continue]`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('/.netlify/functions/claude', {
       method: 'POST',
       headers: {'content-type':'application/json','x-requested-with':'XMLHttpRequest'},
       body: JSON.stringify({model:'claude-sonnet-4-5', max_tokens:2500, messages:[{role:'user',content:prompt}]})
@@ -3336,7 +3349,7 @@ LAUNCH TIMELINE:
 - 90-day revenue estimate: $X-$X`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages',{
+    const res = await fetch('/.netlify/functions/claude',{
       method:'POST',
       headers:{'content-type':'application/json','x-requested-with':'XMLHttpRequest'},
       body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:2000,messages:[{role:'user',content:prompt}]})
@@ -3444,7 +3457,7 @@ Final call to action: (1 line)
 APPENDIX (if relevant): (1 line or "None")`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages',{
+    const res = await fetch('/.netlify/functions/claude',{
       method:'POST',
       headers:{'content-type':'application/json','x-requested-with':'XMLHttpRequest'},
       body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:4000,messages:[{role:'user',content:prompt}]})
@@ -5114,7 +5127,7 @@ DESCRIPTION TEMPLATE: [150-word description with affiliate link placement and ke
 PINNED COMMENT: [What to pin as first comment]`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('/.netlify/functions/claude', {
       method:'POST',
       headers:{'content-type':'application/json','x-requested-with':'XMLHttpRequest'},
       body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:3500,messages:[{role:'user',content:prompt}]})
@@ -5273,7 +5286,7 @@ Include: what the book is about (plot or core argument), who it is for, and what
 Be specific — no generic phrases. Write in present tense. Max 80 words.`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('/.netlify/functions/claude', {
       method: 'POST',
       headers: {'content-type':'application/json','x-requested-with':'XMLHttpRequest'},
       body: JSON.stringify({model:'claude-sonnet-4-5', max_tokens:200,
@@ -6396,7 +6409,7 @@ TITLE OPTIONS: [3 options optimized for search + clicks]
 DESCRIPTION TEMPLATE: [150 words with keyword placement]`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages',{
+    const res = await fetch('/.netlify/functions/claude',{
       method:'POST',
       headers:{'content-type':'application/json','x-requested-with':'XMLHttpRequest'},
       body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:3500,messages:[{role:'user',content:prompt}]})
@@ -7720,6 +7733,7 @@ var APIFY_HARDCODED_KEY = '';
 
 
 async function runLiveAnalysis() {
+  if (_ssBase64) { await extractFromScreenshot(); return; }
   var raw      = (document.getElementById('la-url').value || '').trim();
   var nameRaw  = (document.getElementById('la-name').value || '').trim();
   var bsrRaw   = parseInt(document.getElementById('la-bsr').value) || 0;
@@ -7729,8 +7743,7 @@ async function runLiveAnalysis() {
   if (!raw && !nameRaw) { showMsg('Paste an Amazon URL, ASIN, or product name first'); return; }
 
   var asin = '';
-  var m = raw.match(/(?:dp|gp\/product)\/([A-Z0-9]{10})/) || raw.match(/^([A-Z0-9]{10})$/);
-if (!asin && raw) asin = (raw.match(/[A-Z0-9]{10}/) || [])[0] || '';
+  var m = raw.match(/\/dp\/([A-Z0-9]{10})/) || raw.match(/^([A-Z0-9]{10})$/);
   if (m) asin = m[1];
 
   var amzUrl = asin ? 'https://www.amazon.com/dp/' + asin
@@ -7785,7 +7798,7 @@ if (!asin && raw) asin = (raw.match(/[A-Z0-9]{10}/) || [])[0] || '';
     + '7. TOP 3 VIDEO ANGLES: Specific ready-to-film titles for this exact product.';
 
   try {
-    var res = await fetch('https://api.anthropic.com/v1/messages', {
+    var res = await fetch('/.netlify/functions/claude', {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'x-requested-with': 'XMLHttpRequest' },
       body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 600, messages: [{ role: 'user', content: prompt }] })
@@ -7859,6 +7872,7 @@ function openAmazon(idx) {
 
 // ══ APIFY LIVE DATA ══════════════════════════════════
 
+
 async function fetchApifyData(asin) {
   if (!asin) return null;
   try {
@@ -7880,6 +7894,125 @@ async function fetchApifyData(asin) {
       bsrCategory: (d.bestsellersRank && d.bestsellersRank[0] && d.bestsellersRank[0].category) || d.category || ''
     };
   } catch(e) { return null; }
+}
+
+
+
+// ══ SCREENSHOT VISION CAPTURE ════════════════════════
+var _ssBase64 = null;
+var _ssMime = 'image/png';
+
+function handleSSFile(file) {
+  if (!file || !file.type.startsWith('image/')) return;
+  _ssMime = file.type;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    _ssBase64 = e.target.result.split(',')[1];
+    var img = document.getElementById('ss-img');
+    if (img) img.src = e.target.result;
+    var preview = document.getElementById('ss-preview');
+    if (preview) { preview.style.display = 'inline-block'; }
+    var hint = document.getElementById('ss-hint');
+    if (hint) hint.style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleSSDrop(e) {
+  e.preventDefault();
+  var file = e.dataTransfer.files[0];
+  if (file) handleSSFile(file);
+}
+
+function clearSS() {
+  _ssBase64 = null;
+  var preview = document.getElementById('ss-preview');
+  if (preview) preview.style.display = 'none';
+  var hint = document.getElementById('ss-hint');
+  if (hint) hint.style.display = 'block';
+  var inp = document.getElementById('ss-input');
+  if (inp) inp.value = '';
+}
+
+document.addEventListener('paste', function(e) {
+  var items = e.clipboardData && e.clipboardData.items;
+  if (!items) return;
+  for (var i = 0; i < items.length; i++) {
+    if (items[i].type.startsWith('image/')) {
+      handleSSFile(items[i].getAsFile());
+      var panel = document.getElementById('live-analyzer');
+      if (panel) panel.style.display = 'block';
+      showMsg('Screenshot pasted! Click Analyze Product to extract data.');
+      break;
+    }
+  }
+});
+
+async function extractFromScreenshot() {
+  var result = document.getElementById('la-result');
+  result.style.display = 'block';
+  result.innerHTML = '<div style="display:flex;align-items:center;gap:12px;padding:16px;background:var(--surface2);border-radius:8px"><div class="loading-bar" style="width:160px"><div class="loading-bar-fill"></div></div><span style="font-size:13px;color:var(--text3)" id="la-msg">Reading screenshot...</span></div>';
+
+  var mi = 0;
+  var msgs = ['Extracting BSR...','Finding video count...','Reading price and rating...','Parsing data...'];
+  var iv = setInterval(function() { var e=document.getElementById('la-msg'); if(e) e.textContent=msgs[++mi%msgs.length]; }, 1500);
+
+  var prompt = 'Read this Amazon product listing screenshot. Extract: product name, ASIN (10 chars), price (numbers only), star rating, review count, Best Sellers Rank number (digits only, no # or commas), and count of video thumbnails visible. Respond with ONLY this JSON, no other text: {"name":"","asin":"","price":"","rating":"","reviews":"","bsr":"","videoCount":0}. Use null for missing values.';
+
+  try {
+    var res = await fetch('/.netlify/functions/claude', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'x-requested-with': 'XMLHttpRequest' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 250,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: _ssMime, data: _ssBase64 } },
+            { type: 'text', text: prompt }
+          ]
+        }]
+      })
+    });
+
+    clearInterval(iv);
+    if (!res.ok) throw new Error('API ' + res.status);
+    var data = await res.json();
+    var rawTxt = (data.content || []).filter(function(b) { return b.type === 'text'; }).map(function(b) { return b.text; }).join('').trim();
+
+    var ex = {};
+    try {
+      var clean = rawTxt.replace(/```json|```/g, '').trim();
+      var jm = clean.match(/\{[\s\S]+?\}/);
+      if (jm) ex = JSON.parse(jm[0]);
+    } catch(pe) {}
+
+    if (ex.name)  { var en=document.getElementById('la-name'); if(en) en.value=ex.name.substring(0,80); }
+    if (ex.asin)  { var eu=document.getElementById('la-url');  if(eu) eu.value=ex.asin; }
+    if (ex.bsr)   { var eb=document.getElementById('la-bsr');  if(eb) eb.value=String(ex.bsr).replace(/[^0-9]/g,''); }
+    if (ex.videoCount !== null && ex.videoCount !== undefined) {
+      var ev=document.getElementById('la-videos'); if(ev) ev.value=ex.videoCount;
+    }
+
+    _ssBase64 = null;
+
+    result.innerHTML =
+      '<div style="background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.3);border-radius:8px;padding:14px 18px">'
+      + '<div style="font-weight:700;color:var(--accent);margin-bottom:10px;font-size:13px">Screenshot read — fields filled above</div>'
+      + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px">'
+        + '<div style="background:var(--surface2);padding:8px;border-radius:6px;text-align:center"><div style="font-size:10px;color:var(--text3);text-transform:uppercase;margin-bottom:2px">BSR</div><div style="font-size:15px;font-weight:900;color:var(--gain)">' + (ex.bsr ? '#'+ex.bsr : 'not found') + '</div></div>'
+        + '<div style="background:var(--surface2);padding:8px;border-radius:6px;text-align:center"><div style="font-size:10px;color:var(--text3);text-transform:uppercase;margin-bottom:2px">Price</div><div style="font-size:15px;font-weight:900;color:var(--text1)">' + (ex.price ? '$'+ex.price : '—') + '</div></div>'
+        + '<div style="background:var(--surface2);padding:8px;border-radius:6px;text-align:center"><div style="font-size:10px;color:var(--text3);text-transform:uppercase;margin-bottom:2px">Rating</div><div style="font-size:15px;font-weight:900;color:var(--text1)">' + (ex.rating || '—') + '</div></div>'
+        + '<div style="background:var(--surface2);padding:8px;border-radius:6px;text-align:center"><div style="font-size:10px;color:var(--text3);text-transform:uppercase;margin-bottom:2px">Videos</div><div style="font-size:15px;font-weight:900;color:var(--text1)">' + (ex.videoCount !== null && ex.videoCount !== undefined ? ex.videoCount : '—') + '</div></div>'
+      + '</div>'
+      + '<button class="btn btn-primary" style="font-size:13px;padding:9px 20px;font-weight:700" onclick="runLiveAnalysis()">Analyze Now</button>'
+      + '</div>';
+
+  } catch(err) {
+    clearInterval(iv);
+    result.innerHTML = '<div style="color:var(--danger);padding:12px;background:rgba(255,71,87,.06);border:1px solid rgba(255,71,87,.2);border-radius:8px;font-size:13px">Error: ' + err.message + '</div>';
+  }
 }
 
 </script>
